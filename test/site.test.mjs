@@ -158,3 +158,14 @@ test('Source and preview pass publication boundary checks', async () => {
   await checkPublication(out);
   await checkPublication(resolve(root,'src'),{source:true});
 });
+
+test('Portfolio has planning, explicit serverless skills and grounded AI verification', async () => {
+  const html = await readFile(resolve(out,'index.html'),'utf8');
+  for (const text of ['기획을 서비스로 만들고','id="skills"','Lambda','DynamoDB','검증 기준과 최종 반영 여부','AI로 선택지를 넓히고','Codex · Claude','실패·경계·동시성','384MiB']) assert.ok(html.includes(text),text);
+  assert.doesNotMatch(html,/Figma|피그마|Figma Make|숙련도\s*\d+%/i);
+  assert.match(html,/content="noindex,nofollow"/);
+  assert.doesNotMatch(html,/02 \/ CORE|백엔드와 DB가 중심|데이터베이스를 중심으로/);
+  assert.match(html,/02 \/ DATA/);
+  assert.doesNotMatch(html,/사진 요청|숙련도 숫자 대신|모든 기술을 같은 깊이/);
+  assert.match(await readFile(resolve(out,'cases/memory.html'),'utf8'),/이미지 처리 요청/);
+});
