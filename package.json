@@ -1,0 +1,14 @@
+{
+  "name": "jongtae-portfolio",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": { "node": ">=24 <25" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:production": "node scripts/build.mjs --production",
+    "check": "node scripts/check-publication.mjs",
+    "test": "node --test test/*.test.mjs",
+    "dev": "node scripts/serve.mjs"
+  }
+}

@@ -1,0 +1,8 @@
+dist/
+.DS_Store
+node_modules/
+test-results/
+*.local
+.env*
+__pycache__/
+*.png.tmp
