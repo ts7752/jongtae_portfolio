@@ -72,7 +72,7 @@ test('Related case IDs and meaningful results are complete', () => {
 test('Recovery time and delivery claims retain their verification boundaries', () => {
   assert.match(JSON.stringify(content.reboot), /24分|24분/);
   assert.match(JSON.stringify(content.reboot), /평균 복구 시간이 아닙니다/);
-  assert.match(JSON.stringify(content.delivery), /수신·열람이 아닙니다/);
+  assert.match(JSON.stringify(content.delivery), /접수는 고객의 수신이나 열람을 뜻하지 않습니다/);
   assert.match(JSON.stringify(content.memory), /누수 해결/);
 });
 test('Preview artifacts contain only public files and crawler exclusion', async () => {
@@ -137,7 +137,7 @@ test('Build is deterministic and does not accumulate follow-up sections', async 
   await build();
   const afterHash = createHash('sha256').update(await readFile(resolve(out,'cases/payment.html'))).digest('hex');
   assert.equal(beforeHash,afterHash);
-  assert.equal(content.payment.sections.filter(s=>s[0].startsWith('후속 보완')).length,1);
+  assert.equal(content.payment.sections.filter(s=>s[0] === '추가 보완한 결제 처리').length,1);
 });
 
 test('Social image is PNG at 1200 by 630 pixels', async () => {
@@ -161,11 +161,11 @@ test('Source and preview pass publication boundary checks', async () => {
 
 test('Portfolio has planning, explicit serverless skills and grounded AI verification', async () => {
   const html = await readFile(resolve(out,'index.html'),'utf8');
-  for (const text of ['기획을 서비스로 만들고','id="skills"','Lambda','DynamoDB','검증 기준과 최종 반영 여부','AI로 선택지를 넓히고','Codex · Claude','실패·경계·동시성','384MiB']) assert.ok(html.includes(text),text);
+  for (const text of ['기획부터 개발과 운영까지','id="skills"','Lambda','DynamoDB','요구사항과 설계 초안은 직접 정리합니다','AI를 활용하고','Codex · Claude','동시 요청','384MiB']) assert.ok(html.includes(text),text);
   assert.doesNotMatch(html,/Figma|피그마|Figma Make|숙련도\s*\d+%/i);
   assert.match(html,/content="noindex,nofollow"/);
   assert.doesNotMatch(html,/02 \/ CORE|백엔드와 DB가 중심|데이터베이스를 중심으로/);
   assert.match(html,/02 \/ DATA/);
   assert.doesNotMatch(html,/사진 요청|숙련도 숫자 대신|모든 기술을 같은 깊이/);
-  assert.match(await readFile(resolve(out,'cases/memory.html'),'utf8'),/이미지 처리 요청/);
+  assert.match(await readFile(resolve(out,'cases/memory.html'),'utf8'),/Java heap space/);
 });

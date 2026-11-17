@@ -1,17 +1,1 @@
-.decision-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.decision-card { min-height: 300px; }
-.domain-question { font-size: 18px; color: var(--ink); margin-bottom: 12px; }
-@media (max-width: 650px) { .decision-grid { grid-template-columns: 1fr; } }
-.hero-foot { display: flex; flex-wrap: wrap; gap: 7px 20px; line-height: 1.8; font-size: 11px; }
-.project-period, .project-id .project-period { margin-top: 16px; color: var(--sub); font-size: 11px; line-height: 1.8; }
-.period-note { margin-top: 20px; color: var(--sub); font-size: 11px; line-height: 1.8; }
-.compact-archive details { padding: 13px 0; }
-.compact-archive summary { gap: 12px; }
-.compact-archive summary > span + span { font-size: 11px; line-height: 1.7; }
-.compact-archive details p { font-size: 12px; line-height: 1.8; }
-@media (max-width: 650px) {
-  .hero-foot { flex-direction: column; gap: 0; }
-  .compact-archive summary { flex-wrap: wrap; gap: 4px 10px; }
-  .compact-archive summary > span + span { font-size: 11px; }
-  .compact-archive summary::after { margin-left: auto; }
-}
+/* The publication layout is defined in style.css. */
