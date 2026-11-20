@@ -2,3 +2,8 @@
 @media(max-width:760px){.case-page{padding-top:22px}.case-back{margin-bottom:24px}.case-heading{padding-top:25px}.case-heading h1{font-size:31px;letter-spacing:-1.2px}.case-lead{font-size:15px;margin-top:20px}.case-summary{gap:6px 16px}.case-flow{padding:20px}.case-flow ol{grid-template-columns:1fr 1fr;gap:17px}.case-section,.case-section.result{grid-template-columns:1fr;gap:12px}.case-section h2{font-size:18px}.case-section p{font-size:13px}.case-section.result{padding:22px}.related a{font-size:12px}}
 @media print{.case-back,.related,.case-page>.button{display:none}.case-section{break-inside:avoid}.case-page{width:100%;padding:0}}
 .case-heading h1{ text-wrap:balance }
+.notion-link,.case-notion a{display:inline-block;color:var(--blue);font-size:14px;line-height:1.8;padding-block:10px;text-decoration:underline;text-underline-offset:4px;overflow-wrap:anywhere}
+.case-notion{max-width:820px;border-top:1px solid var(--line);padding-top:15px;margin-bottom:30px}
+.practice>.notion-link{color:#c7d3ff;margin-top:20px}
+.contact-links{display:flex;flex-wrap:wrap;gap:12px 24px}
+.contact-bottom{flex-wrap:wrap}

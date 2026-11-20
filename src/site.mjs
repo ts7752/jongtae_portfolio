@@ -5,6 +5,7 @@ export const site = {
   email: 'ts7752@naver.com',
   github: 'https://github.com/ts7752',
   productionUrl: 'https://ts7752.github.io/jongtae_portfolio/',
+  notionUrl: 'https://seemly-finch-18b.notion.site/41d8570d99c5811d967dd9e1f834aa28',
   language: 'ko',
   evidenceDate: '2026-11',
 };

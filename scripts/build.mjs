@@ -5,6 +5,7 @@ import { stories } from '../src/stories.mjs';
 import { additions } from '../src/additions.mjs';
 import { projects } from '../src/projects.mjs';
 import { site } from '../src/site.mjs';
+import { notionUrl } from '../src/notion.mjs';
 
 export const root = fileURLToPath(new URL('../', import.meta.url));
 export const content = structuredClone({ ...stories, ...additions, ...projects });
@@ -41,9 +42,10 @@ function renderCase(key, story, options) {
     return `<a href="${id}.html">${escape(content[id].title)} <span aria-hidden="true">↗</span></a>`;
   }).join('');
   const sections = story.sections.map(([heading, copy, type]) => `<section class="case-section ${type ?? ''}"><h2>${escape(heading)}</h2><p>${escape(copy)}</p></section>`).join('');
+  const notionDetail = `<p class="case-notion"><a href="${escape(notionUrl(key))}" target="_blank" rel="noopener noreferrer">노션에서 설계와 검증 과정 보기</a></p>`;
   const summary = story.summary ? `<ul class="case-summary">${story.summary.map(t => `<li>${escape(t)}</li>`).join('')}</ul>` : '';
   const flow = story.flow ? `<figure class="case-flow"><figcaption>처리 과정을 정리한 개념도</figcaption><ol>${story.flow.map(t => `<li>${escape(t)}</li>`).join('')}</ol></figure>` : '';
-  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">${metadata({title:story.title+' — 이종태',description:story.lead,path:casePath(key),...options})}<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../site.css"></head><body><a class="skip" href="#main">본문으로 이동</a><header class="header wrap"><a class="brand" href="../index.html">JONGTAE LEE<span>이종태</span></a><nav aria-label="상세 메뉴"><a href="../index.html#work">프로젝트</a><a href="../index.html#decisions">모든 사례</a><a href="../index.html#contact">연락하기 ↗</a></nav></header><main id="main" class="case-page wrap"><a class="case-back" href="../index.html#work">← 포트폴리오로</a><article><header class="case-heading"><p class="eyebrow">${escape(story.category)}</p><h1>${escape(story.title)}</h1><p class="case-lead">${escape(story.lead)}</p>${summary}</header>${flow}<div class="case-copy">${sections}</div></article>${related ? `<aside class="related"><p class="eyebrow">이어 읽기</p>${related}</aside>` : ''}<a class="button dark" href="../index.html#contact">이 경험에 대해 이야기하기 ↗</a></main><footer class="footer wrap"><span>JONGTAE LEE · 이종태</span><p>2026.11 기준</p><a href="../index.html">홈으로 ↑</a></footer></body></html>`;
+  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">${metadata({title:story.title+' — 이종태',description:story.lead,path:casePath(key),...options})}<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../site.css"></head><body><a class="skip" href="#main">본문으로 이동</a><header class="header wrap"><a class="brand" href="../index.html">JONGTAE LEE<span>이종태</span></a><nav aria-label="상세 메뉴"><a href="../index.html#work">프로젝트</a><a href="../index.html#decisions">모든 사례</a><a href="../index.html#contact">연락하기 ↗</a></nav></header><main id="main" class="case-page wrap"><a class="case-back" href="../index.html#work">← 포트폴리오로</a><article><header class="case-heading"><p class="eyebrow">${escape(story.category)}</p><h1>${escape(story.title)}</h1><p class="case-lead">${escape(story.lead)}</p>${summary}</header>${flow}<div class="case-copy">${sections}</div>${notionDetail}</article>${related ? `<aside class="related"><p class="eyebrow">이어 읽기</p>${related}</aside>` : ''}<a class="button dark" href="../index.html#contact">이 경험에 대해 이야기하기 ↗</a></main><footer class="footer wrap"><span>JONGTAE LEE · 이종태</span><p>2026.11 기준</p><a href="../index.html">홈으로 ↑</a></footer></body></html>`;
 }
 
 export async function build({ production = false, siteUrl = site.productionUrl, outDir = resolve(root, 'dist') } = {}) {
@@ -55,6 +57,7 @@ export async function build({ production = false, siteUrl = site.productionUrl, 
   for (const name of ['style.css','editorial.css','refinement.css','site.css']) await copyFile(resolve(root,'src',name), resolve(out,name));
   for (const name of ['favicon.svg','social-card.png']) await copyFile(resolve(root,'src/assets',name), resolve(out,'assets',name));
   let home = await readFile(resolve(root,'src/index.html'), 'utf8');
+  home = home.replace(/\{\{NOTION:([a-z-]+)\}\}/g, (_, key) => escape(key === 'home' ? site.notionUrl : notionUrl(key)));
   home = home.replaceAll('— 현재', '— 2026.11 기록 기준').replace(/<br>\s*/g, '<br> ');
   home = home.replace(/<button\b([^>]*\bdata-story="([a-z-]+)"[^>]*)>([\s\S]*?)<\/button>/g, (_, attrs, key, label) => {
     if (!content[key]) throw new Error(`Unknown case: ${key}`);

@@ -7,6 +7,7 @@ import { createHash } from 'node:crypto';
 import { build, root, content, deploymentUrl } from '../scripts/build.mjs';
 import { checkPublication } from '../scripts/check-publication.mjs';
 import { site } from '../src/site.mjs';
+import { notionUrl } from '../src/notion.mjs';
 
 const out = resolve(root, 'dist');
 let pages;
@@ -83,7 +84,16 @@ test('Preview artifacts contain only public files and crawler exclusion', async 
 test('Each project detail can be reached without a Notion account', async () => {
   const home = await readFile(resolve(out,'index.html'),'utf8');
   for (const key of ['market','energy','company']) assert.ok(home.includes(`cases/${key}.html`), key);
-  assert.doesNotMatch(home, /notion\.so|notion\.site/);
+  assert.ok(home.includes(`href="${site.notionUrl}"`));
+  assert.doesNotMatch(home, /\{\{NOTION:/);
+  for (const key of Object.keys(content)) {
+    const html = await readFile(resolve(out, `cases/${key}.html`), 'utf8');
+    const url = notionUrl(key);
+    assert.equal(new URL(url).origin, new URL(site.notionUrl).origin);
+    assert.match(new URL(url).pathname, /^\/[0-9a-f]{32}$/);
+    assert.ok(html.includes(`href="${url}" target="_blank" rel="noopener noreferrer"`), key);
+    assert.match(html, /class="case-copy"/);
+  }
 });
 
 test('Every page ID is unique and links resolve to real fragment targets', async () => {
