@@ -7,3 +7,11 @@
 .practice>.notion-link{color:#c7d3ff;margin-top:20px}
 .contact-links{display:flex;flex-wrap:wrap;gap:12px 24px}
 .contact-bottom{flex-wrap:wrap}
+.earlier-awards{margin-top:24px;border-top:1px solid var(--line);padding-top:16px}
+.earlier-awards summary{font-size:14px;color:var(--blue);cursor:pointer;padding-block:8px}
+.earlier-awards ul{padding-left:20px;color:var(--sub);font-size:14px;line-height:1.9}
+@media(max-width:760px){
+  .intro-description,.decision-card p,.project-overview>p,.project-topics p,.directory-body,.tool-table dd>p,.practice-lead,.practice-steps p,.earlier-list details>p,.case-section p,.case-lead{font-size:16px;line-height:1.9}
+  .intro-fact>p,.project-overview .project-role,.project-overview .collaboration-note,.directory-result,.responsibility,.tool-table dd>strong,.tool-details>dl>div,.practice-proof p,.practice-proof small,.case-section.scope p,.related a,.earlier-awards summary,.earlier-awards ul{font-size:14px;line-height:1.9}
+  .tech-line,.project-stack,.evidence-note,.extra-links{font-size:13px;line-height:1.9}
+}
